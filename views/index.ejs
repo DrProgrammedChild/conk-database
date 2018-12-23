@@ -11,7 +11,9 @@
 </p>
 
 <ul style="list-style-type: square; font-family: Arial;">
-	<li style="text-align: center;"><a href="/login">Login</a></li>
+	<% if(!loggedin){ %>
+		<li style="text-align: center;"><a href="/login">Login</a></li>
+	<% } %>
 	<li style="text-align: center;"><a href="http://google.com">Games</a></li>
 	<li style="text-align: center;"><a href="http://google.com">Bot</a></li>
 	<li style="text-align: center;"><a href="http://google.com">About</a></li>
