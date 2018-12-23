@@ -3,6 +3,7 @@ var mod = {
 		require("./Commands/basic.js"),
 		require("./Commands/currency.js"),
 		require("./Commands/music.js"),
+		require("./Commands/fun.js"),
 		require("./Commands/nsfw.js"),
 		require("./Commands/admin.js")
 	],
