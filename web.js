@@ -57,7 +57,7 @@ var oauth = new DiscordOAuth2({
 	id: process.env.clientid,
 	secret: process.env.clientsecret,
 	scope: "identify",
-	redir_uri: "http://localhost:8081/oauth/discord/callback"
+	redir_uri: "https://programming-hacking.herokuapp.com/oauth/discord/callback"
 });
 
 //Express routes
