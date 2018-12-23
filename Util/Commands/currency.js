@@ -2,9 +2,6 @@
 var Command = require("./command.js");
 var commands = [];
 var database = require("./database.js");
-var express = require("express");
-var bodyParser = require("body-parser");
-var app = express();
 
 //Classes
 class ShopItem{
@@ -140,8 +137,12 @@ commands.push(
 				if(amount){
 					database.getUser(msg.mentions.members.first())
 						.then(usr => {
-							usr.addCoins(parseInt(amount));
-							msg.channel.send("Gave **" + msg.mentions.members.first().user.username + "** **" + amount + "** hacker coins.");
+							if(parseInt(amount)){
+								usr.addCoins(parseInt(amount));
+								msg.channel.send("Gave **" + msg.mentions.members.first().user.username + "** **" + amount + "** hacker coins.");
+							} else{
+								msg.channel.send(":no_entry_sign: Error: Please provide a valid amount");
+							}
 						})
 						.catch(console.log);
 				} else{
@@ -170,8 +171,10 @@ commands.push(
 				if(amount){
 					database.getUser(msg.mentions.members.first())
 						.then(usr => {
-							usr.takeCoins(parseInt(amount));
-							msg.channel.send("Took **" + amount + "** hacker coins from **" + msg.mentions.members.first().user.username + "**.");
+							if(parseInt(amount)){
+								usr.takeCoins(parseInt(amount));
+								msg.channel.send("Took **" + amount + "** hacker coins from **" + msg.mentions.members.first().user.username + "**.");
+							}
 						})
 						.catch(console.log);
 				} else{
@@ -184,30 +187,6 @@ commands.push(
 		"Takes coins from a user"
 	)
 );
-
-//Express routes
-app.use(express.static("./database"));
-var urlencodedparser = bodyParser.json();
-
-app.post("/addcoins",urlencodedparser,(req,res) => {
-	let request = req.body;
-	database.getUser({id: request.id})
-		.then(user => {
-			user.addCoins(request.amount);
-		})
-		.catch(console.log);
-});
-
-app.post("/takecoins",urlencodedparser,(req,res) => {
-	let request = req.body;
-	database.getUser({id: request.id})
-		.then(user => {
-			user.takeCoins(request.amount);
-		})
-		.catch(console.log);
-});
-
-app.listen(process.env.PORT || 8081);
 
 //Export
 module.exports = {

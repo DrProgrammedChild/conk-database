@@ -16,7 +16,11 @@ function search(query){
 	return new Promise((resolve,reject) => {
 		request("https://www.googleapis.com/youtube/v3/search?part=id&type=video&q=" + encodeURIComponent(query) + "&key=" + ytapikey,(err,res,body) => {
 			let json = JSON.parse(body);
-			resolve("https://www.youtube.com/watch?v=" + json.items[0].id.videoId);
+			if(json.items.length > 0){
+				resolve("https://www.youtube.com/watch?v=" + json.items[0].id.videoId);
+			} else{
+				resolve(0);
+			}
 		});
 	});
 }
@@ -25,15 +29,19 @@ function queueAdd(query,requester){
 	return new Promise((resolve,reject) => {
 		search(query)
 			.then(url => {
-				youtubeinfo(youtubeid(url),(err,info) => {
-					let song = {
-						name: info.title,
-						url: url,
-						requester: requester
-					};
-					queue.push(song);
-					resolve(song);
-				});
+				if(url != 0){
+					youtubeinfo(youtubeid(url),(err,info) => {
+						let song = {
+							name: info.title,
+							url: url,
+							requester: requester
+						};
+						queue.push(song);
+						resolve(song);
+					});
+				} else{
+					resolve(0);
+				}
 			})
 			.catch(console.log);
 	});
@@ -71,14 +79,22 @@ commands.push(
 			if(playing){
 				queueAdd(song,msg.author.username)
 					.then(rsong => {
-						msg.channel.send("Added **" + rsong.name + "** to queue.");
+						if(rsong != 0){
+							msg.channel.send("Added **" + rsong.name + "** to queue.");
+						} else{
+							msg.channel.send(":no_entry_sign: Error: No song found matching query: " + song);
+						}
 					})
 					.catch(console.log);
 			} else{
 				if(msg.member.voiceChannel){
 					queueAdd(song,msg.author.username)
 						.then(rsong => {
-							play(queue[0],msg.member.voiceChannel,msg.channel)
+							if(rsong != 0){
+								play(queue[0],msg.member.voiceChannel,msg.channel)
+							} else{
+								msg.channel.send(":no_entry_sign: Error: No song found matching query: " + song);
+							}
 						})
 						.catch(console.log);
 				} else{
