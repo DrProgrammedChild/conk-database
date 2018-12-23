@@ -23,6 +23,16 @@ commands.push(
 	)
 );
 
+commands.push(
+	new Command(
+		"website",
+		function(client,msg){
+			msg.channel.send("https://programming-hacking.herokuapp.com/");
+		},
+		"Go to our website"
+	)
+);
+
 //Export
 module.exports = {
 	name: "Basic",
