@@ -24,6 +24,10 @@ class User{
 		this.coins -= amount;
 		this.saveState();
 	}
+	setCoins(amount){
+		this.coins = amount; 
+		this.saveState();
+	}
 	saveState(){
 		fs.readFile("/database.json",(err,res) => {
 			dbjson = JSON.parse(res.toString());
