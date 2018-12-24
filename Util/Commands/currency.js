@@ -158,6 +158,40 @@ commands.push(
 
 commands.push(
 	new Command(
+		"setcoins",
+		{
+			roles: [
+				"521053206500081684",
+				"521053328835084290",
+				"521053082801405952"
+			]
+		},
+		function(client,msg,user,amount){
+			if(msg.mentions.members.first()){
+				if(amount){
+					database.getUser(msg.mentions.members.first())
+						.then(usr => {
+							if(parseInt(amount)){
+								usr.setCoins(parseInt(amount));
+								msg.channel.send("Set **" + msg.mentions.members.first().user.username + "** coin count to **" + amount + "** hacker coins.");
+							} else{
+								msg.channel.send(":no_entry_sign: Error: Please provide a valid amount");
+							}
+						})
+						.catch(console.log);
+				} else{
+					msg.channel.send(":no_entry_sign: Error: Please provide a valid amount");
+				}
+			} else{
+				msg.channel.send(":no_entry_sign: Error: Please provide a valid user");
+			}
+		},
+		"Sets a user's coins"
+	)
+);
+
+commands.push(
+	new Command(
 		"takecoins",
 		{
 			roles: [
