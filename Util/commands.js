@@ -1,3 +1,4 @@
+var client;
 var mod = {
 	categories: [
 		require("./Commands/basic.js"),
@@ -71,7 +72,17 @@ var mod = {
 				msg.channel.send(":no_entry_sign: Error: Unknown command");
 			}
 		}
+	},
+	init: (cli) => {
+		client = cli;
 	}
 };
+
+for(let i = 0; i < mod.categories.length; i++){
+	let category = mod.categories[i];
+	if(category.run){
+		category.run(client);
+	}
+}
 
 module.exports = mod;
