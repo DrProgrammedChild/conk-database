@@ -157,8 +157,8 @@ commands.push(
 				if(vc){
 					vc.leave();
 					vc = undefined;
-					queue = [];
 				}
+				queue = [];
 				msg.channel.send("Left voice channel.");
 			} else{
 				msg.channel.send(":no_entry_sign: Error: Not connected to voice channel");

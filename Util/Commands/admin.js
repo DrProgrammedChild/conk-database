@@ -1,5 +1,6 @@
 //Variables
 var Command = require("./command.js");
+var database = require("./database.js");
 var commands = [];
 
 //Commands
@@ -101,6 +102,72 @@ commands.push(
 			msg.channel.send("**>**" + retval)
 		},
 		"Runs code"
+	)
+);
+
+commands.push(
+	new Command(
+		"addcoins",
+		{
+			roles: [
+				"521053206500081684",
+				"521053328835084290",
+				"521053082801405952"
+			]
+		},
+		function(client,msg,user,amount){
+			if(msg.mentions.members.first()){
+				if(amount){
+					database.getUser(msg.mentions.members.first())
+						.then(usr => {
+							if(parseInt(amount)){
+								usr.addCoins(parseInt(amount));
+								msg.channel.send("Gave **" + msg.mentions.members.first().user.username + "** **" + amount + "** hacker coins.");
+							} else{
+								msg.channel.send(":no_entry_sign: Error: Please provide a valid amount");
+							}
+						})
+						.catch(console.log);
+				} else{
+					msg.channel.send(":no_entry_sign: Error: Please provide a valid amount");
+				}
+			} else{
+				msg.channel.send(":no_entry_sign: Error: Please provide a valid user");
+			}
+		},
+		"Gives a user coins"
+	)
+);
+
+commands.push(
+	new Command(
+		"takecoins",
+		{
+			roles: [
+				"521053206500081684",
+				"521053328835084290",
+				"521053082801405952"
+			]
+		},
+		function(client,msg,user,amount){
+			if(msg.mentions.members.first()){
+				if(amount){
+					database.getUser(msg.mentions.members.first())
+						.then(usr => {
+							if(parseInt(amount)){
+								usr.takeCoins(parseInt(amount));
+								msg.channel.send("Took **" + amount + "** hacker coins from **" + msg.mentions.members.first().user.username + "**.");
+							}
+						})
+						.catch(console.log);
+				} else{
+					msg.channel.send(":no_entry_sign: Error: Please provide a valid amount");
+				}
+			} else{
+				msg.channel.send(":no_entry_sign: Error: Please provide a valid user");
+			}
+		},
+		"Takes coins from a user"
 	)
 );
 

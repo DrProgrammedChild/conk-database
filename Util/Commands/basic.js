@@ -17,7 +17,7 @@ commands.push(
 	new Command(
 		"version",
 		function(client,msg){
-			msg.channel.send("Version v0.1.0 (Alpha)");
+			msg.channel.send("Version v0.1.5 (Beta)");
 		},
 		"Displays bot version"
 	)
