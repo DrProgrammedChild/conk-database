@@ -46,7 +46,9 @@ class DiscordOAuth2{
 				}
 			}
 			request(options,(err,res,body) => {
-				resolve(JSON.parse(body));
+				let user = JSON.parse(body);
+				user.user = user;
+				resolve(user);
 			});
 		});
 	}
@@ -57,7 +59,7 @@ var oauth = new DiscordOAuth2({
 	id: process.env.clientid,
 	secret: process.env.clientsecret,
 	scope: "identify",
-	redir_uri: "https://programming-hacking.herokuapp.com/oauth/discord/callback"
+	redir_uri: "http://localhost:8081/oauth/discord/callback"
 });
 
 //Express routes
@@ -101,6 +103,54 @@ app.get("/oauth/discord/callback",(req,res) => {
 			res.redirect("/");
 		})
 		.catch(console.log);
+});
+
+app.get("/bot",(req,res) => {
+	let loggedin;
+	if(req.cookies.token){
+		loggedin = true;
+		oauth.getUser(req.cookies.token)
+			.then(user => {
+				database.getUser(user)
+					.then(dbuser => {
+						res.render("bot.ejs",{
+							loggedin: loggedin,
+							user: user,
+							dbuser: dbuser
+						});
+					})
+					.catch(console.log);
+			})
+			.catch(console.log);
+	} else{
+		res.render("bot.ejs",{
+			loggedin: loggedin
+		});
+	}
+});
+
+app.get("/about",(req,res) => {
+	let loggedin;
+	if(req.cookies.token){
+		loggedin = true;
+		oauth.getUser(req.cookies.token)
+			.then(user => {
+				database.getUser(user)
+					.then(dbuser => {
+						res.render("about.ejs",{
+							loggedin: loggedin,
+							user: user,
+							dbuser: dbuser
+						});
+					})
+					.catch(console.log);
+			})
+			.catch(console.log);
+	} else{
+		res.render("about.ejs",{
+			loggedin: loggedin
+		});
+	}
 });
 
 //Listen
