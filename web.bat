@@ -1,5 +1,0 @@
-@echo off
-set clientid=518289758070243353
-set clientsecret=UhZeXeH5RHI092BcW2CFDehQxj6L-V8n
-set db_key=pBCQR2nFdEAAAAAAAAAANAHVcf2s5hMBRTRbSpAKhC5J_ueEXlW4qS8dIq1MLjEx
-node web
