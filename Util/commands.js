@@ -1,3 +1,4 @@
+var request = require("request");
 var client;
 var mod = {
 	categories: [
@@ -75,14 +76,30 @@ var mod = {
 	},
 	init: (cli) => {
 		client = cli;
+		let guild = client.guilds.find("id","543238772276330537");
+		let channel = guild.channels.find("id","543711309137707009");
+		setInterval(() => {
+			request("https://www.reddit.com/r/dankmemes/new.json?sort=new",(err,res,body) => {
+				let json = JSON.parse(body);
+				let posts = json.data.children;
+				let post = posts[Math.floor(Math.random() * posts.length)];
+				while(post == undefined){
+					let post = posts[Math.floor(Math.random() * posts.length)];
+				}
+				channel.send(post.title,{
+					files: [
+						post.data.url
+					]
+				});
+			});
+		},20*1000);
+		for(let i = 0; i < mod.categories.length; i++){
+			let category = mod.categories[i];
+			if(category.run){
+				category.run(client);
+			}
+		}
 	}
 };
-
-for(let i = 0; i < mod.categories.length; i++){
-	let category = mod.categories[i];
-	if(category.run){
-		category.run(client);
-	}
-}
 
 module.exports = mod;
