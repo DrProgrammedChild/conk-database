@@ -15,7 +15,7 @@ commands.push(
 				while(post == undefined){
 					post = posts[Math.floor(Math.random() * posts.length)];
 				}
-				msg.channel.send({
+				msg.channel.send(post.title,{
 					files: [
 						post.data.url
 					]

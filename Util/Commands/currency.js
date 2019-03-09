@@ -126,16 +126,5 @@ commands.push(
 module.exports = {
 	name: "Currency",
 	hidden: false,
-	commands: commands,
-	run: client => {
-		setInterval(() => {
-			client.members.tap(member => {
-				database.getUser(member)
-					.then(user => {
-						user.addCoins(10);
-					})
-					.catch(console.log);
-			});
-		},1000*60*60*24);
-	}
+	commands: commands
 };
