@@ -10,7 +10,8 @@ var token = process.env.token;
 client.on("ready",() => {
 	client.user.setActivity("hacking you, m8");
 	console.log("Client ready");
-	commandutil.init();
+	console.log(client);
+	commandutil.init(client);
 });
 
 client.on("message",msg => {
