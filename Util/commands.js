@@ -76,7 +76,7 @@ var mod = {
 	},
 	init: (cli) => {
 		client = cli;
-		let guild = client.guilds.find("id","543238772276330537");
+		let guild = cli.guilds.find("id","543238772276330537");
 		let channel = guild.channels.find("id","543711309137707009");
 		setInterval(() => {
 			request("https://www.reddit.com/r/dankmemes/new.json?sort=new",(err,res,body) => {
