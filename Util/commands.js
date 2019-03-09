@@ -76,7 +76,6 @@ var mod = {
 	},
 	init: (cli) => {
 		client = cli;
-		console.log(client);
 		let guild = cli.guilds.find("id","543238772276330537");
 		let channel = guild.channels.find("id","543711309137707009");
 		setInterval(() => {
